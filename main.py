@@ -6,6 +6,7 @@ import numpy
 import json
 import shutil
 import os
+import new_pannel
 import sounddevice as sd
 import soundfile as sf
 from tkinter import filedialog
@@ -99,13 +100,13 @@ def play_audio(name):
     speaker_stream = sd.OutputStream(dtype=numpy.float32, samplerate=f.samplerate, blocksize=chunk, channels=f.channels)
     stream.start()
     speaker_stream.start()
-    outdata = numpy.zeros((chunk, 2), numpy.float32)
+    outdata = numpy.zeros(chunk, numpy.float32)
     
     data = f.read(chunk)
     frame_num = 0
-    while len(data) and is_playing and run:
+    while is_playing and run:
         vl = json_data["audios"][playing_num]["volume"]
-        outdata[:] = data
+        outdata[:len(data)] = data
         if not is_setting:
             stream.write(outdata * vl * 2)
             if not deafen:
@@ -347,12 +348,9 @@ while run:
                 draw_pos = (10 * (x_num + 1) + 100 * x_num, 10 * (y_num + 1) + 100 * y_num - y_offset)
                     
                 if draw_pos[0] < pos[0] < draw_pos[0] + 100 and draw_pos[1] < pos[1] < draw_pos[1] + 100:
-                    top = tkinter.Tk()
-                    top.withdraw()
-                    file_name = filedialog.askopenfilename(parent=top)
-                    if file_name:
-                        shutil.copyfile(file_name, "audios\\" + file_name[file_name.rindex("/") + 1:])
-                        inname = simpledialog.askstring("Name:", "Enter the in name:")
+                    inname, file_name = new_pannel.new_pannel()
+                    screen = pygame.display.set_mode(screen_size)
+                    if inname:
                         audios = json_data["audios"]
                         audios.append({"num" : len(audios), "inname" : inname, "filename" : file_name[file_name.rindex("/") + 1:], "volume" : 0.5})
                         json_data["audios"] = audios

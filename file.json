@@ -1,1 +1,1 @@
-{"voice_changer": {}, "audios": [{"inname": "allah o", "volume": 0.5, "filename": "0.wav", "num": 0}], "data": {"hear_my_self": false, "output_volume": 0.46, "input_volume": 0.4533333333333333, "voice_changer": false, "deafen": true, "mute": false}}
+{"audios": [], "voice_changer": {}, "data": {"output_volume": 0.46, "hear_my_self": false, "deafen": false, "input_volume": 0.4533333333333333, "mute": false, "voice_changer": false}}
